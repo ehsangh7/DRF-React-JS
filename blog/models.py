@@ -19,7 +19,7 @@ class Post(models.Model):
 
     options = (
         ('draft', 'Draft'),
-        ('pablished', 'Published')
+        ('published', 'Published')
     )
 
     category = models.ForeignKey(
@@ -27,7 +27,8 @@ class Post(models.Model):
     title = models.CharField(max_length=250)
     excerpt = models.TextField(null=True)
     context = models.TextField()
-    slug = models.SlugField(max_length=250, unique_for_date='pablished')
+    slug = models.SlugField(max_length=250, unique_for_date='published')
+    published = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='blog_posts')
     status = models.CharField(
