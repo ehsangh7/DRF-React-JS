@@ -26,7 +26,7 @@ class Post(models.Model):
         Category, on_delete=models.PROTECT, default=1)
     title = models.CharField(max_length=250)
     excerpt = models.TextField(null=True)
-    context = models.TextField()
+    content = models.TextField()
     slug = models.SlugField(max_length=250, unique_for_date='published')
     published = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(
