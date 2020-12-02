@@ -14,7 +14,7 @@ const App = () => {
     setAppState({ loading: true });
     const apiUrl = `http://127.0.0.1:8000/api/`;
     fetch(apiUrl)
-        .then((data) => data.json)
+        .then((data) => data.json())
         .then((posts) => {
           setAppState({ loading:false, posts: posts })
         })
@@ -29,4 +29,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;
