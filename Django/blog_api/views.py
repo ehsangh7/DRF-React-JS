@@ -1,20 +1,11 @@
 from rest_framework import generics
 from blog.models import Post
 from .serializers import PostSerializer
-from rest_framework.permissions 
-import 
- IsAdminUser, 
- DjangoModelPermissions, 
- BasePermission, 
- IsAuthenticatedOrReadOnly, 
- SAFE_METHODS
-
-
-# Create your views here.
+from rest_framework.permissions import SAFE_METHODS, IsAuthenticatedOrReadOnly, BasePermission, IsAdminUser, DjangoModelPermissions
 
 
 class PostUserWritePermission(BasePermission):
-    message = 'Editing posts is restricted to the author only'
+    message = 'Editing posts is restricted to the author only.'
 
     def has_object_permission(self, request, view, obj):
 
@@ -24,23 +15,16 @@ class PostUserWritePermission(BasePermission):
         return obj.author == request.user
 
 
-
-class PostList(generics.RetrieveUpdateDestroyAPIView):
+class PostList(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Post.postobjects.all()
     serializer_class = PostSerializer
-    
-    
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView, PostUserWritePermission):
     permission_classes = [PostUserWritePermission]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
-
-
-
 
 
 """ Concrete View Classes
