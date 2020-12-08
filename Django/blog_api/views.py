@@ -71,14 +71,19 @@ class PostList(generics.ListAPIView):
         return Post.objects.filter(author=user)
 
 
-class PostDetail(generics.RetrieveAPIView, PostUserWritePermission):
-    permission_classes = [PostUserWritePermission]
-    queryset = Post.objects.all()
+class PostDetail(generics.ListAPIView):
     serializer_class = PostSerializer
 
-    def get_object(self, queryset=None, **kwargs):
-        item = self.kwargs.get('pk')
-        return get_object_or_404(Post, slug=item)
+    def get_queryset(self):
+        """
+        Example 2 part1
+        filtering against URL (ID)
+        Get Post based on title / strings
+        """
+
+        slug = self.kwargs['pk']
+        print(slug)
+        return Post.objects.filter(slug=slug)
 
 
 """ Concrete View Classes
