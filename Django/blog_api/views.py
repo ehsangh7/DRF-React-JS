@@ -5,6 +5,7 @@ from rest_framework.permissions import SAFE_METHODS, IsAuthenticated, IsAuthenti
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
+from rest_framework import filters
 
 
 class PostUserWritePermission(BasePermission):
@@ -78,6 +79,19 @@ class PostDetail(generics.ListAPIView):
         slug = self.request.query_params.get('slug', None)
         print(slug)
         return Post.objects.filter(slug=slug)
+
+
+class PostListDetailfilter(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['^slug']
+
+    # '^' Starts-with search.
+    # '=' Exact-matches
+ 
+
+
 
 
 """ Concrete View Classes
