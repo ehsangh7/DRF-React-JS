@@ -1,7 +1,8 @@
 from rest_framework import generics
+from rest_framework.views import APIView
 from blog.models import Post
 from .serializers import PostSerializer
-from rest_framework.permissions import SAFE_METHODS, IsAuthenticated, IsAuthenticatedOrReadOnly, BasePermission, IsAdminUser, DjangoModelPermissions
+from rest_framework.permissions import SAFE_METHODS, AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly, BasePermission, IsAdminUser, DjangoModelPermissions
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
@@ -64,7 +65,7 @@ class PostUserWritePermission(BasePermission):
 
 
 class PostList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -72,7 +73,7 @@ class PostList(generics.ListAPIView):
         return Post.objects.filter(author=user)
 
 
-class PostDetail(generics.ListAPIView):
+class PostDetail(generics.RetrieveAPIView):
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -89,9 +90,6 @@ class PostListDetailfilter(generics.ListAPIView):
 
     # '^' Starts-with search.
     # '=' Exact-matches
- 
-
-
 
 
 """ Concrete View Classes

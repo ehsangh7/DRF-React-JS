@@ -8,7 +8,7 @@ app_name = 'blog_api'
 
 urlpatterns = [
     path('posts/', PostDetail.as_view(), name='detailcreate'),
-    path('search/custom/', PostListDetailfilter.as_view(), name='postsearch'),
+    path('search/', PostListDetailfilter.as_view(), name='postsearch'),
     path('', PostList.as_view(), name='listcreate'),
 ]
 
