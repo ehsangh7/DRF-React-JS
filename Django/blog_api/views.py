@@ -11,43 +11,21 @@ from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-class PostUserWritePermission(BasePermission):
-    message = 'Editing posts is restricted to the author only.'
-
-    def has_object_permission(self, request, view, obj):
-
-        if request.method in SAFE_METHODS:
-            return True
-
-        return obj.author == request.user
-
-# User Filter
-# class PostList(generics.ListAPIView):
-#     permission_classes = [IsAuthenticated]
-#     serializer_class = PostSerializer
-
-#     def get_queryset(self):
-#         user = self.request.user
-#         return Post.objects.filter(author=user)
-
+# Display Posts
 
 class PostList(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
-
-    def get_queryset(self):
-        user = self.request.user
-        return Post.objects.filter(author=user)
+    queryset = Post.objects.all()
 
 
 class PostDetail(generics.RetrieveAPIView):
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        slug = self.request.query_params.get('slug', None)
-        print(slug)
-        return Post.objects.filter(slug=slug)
+        item = self.kwargs.get('pk')
+        return get_object_or_404(Post, slug=item)
 
+# post Search
 
 class PostListDetailfilter(generics.ListAPIView):
 
@@ -62,57 +40,26 @@ class PostListDetailfilter(generics.ListAPIView):
     # '$' Regex search.
 
 
-class PostSearch(generics.ListAPIView):
-    permission_classes = [AllowAny]
+#  Post Admin 
+class CraetePost(generics.CreateAPIView):
+    permission_classes = [ permissions.IsAuthenticated ]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    filter_backends = [DjangoFilterBackend]
-    search_fields = ['^slug']
 
-    # def get_object(self, queryset=None, **kwargs):
-    #     item = self.kwargs.get('pk')
-    #     return get_object_or_404(Post, slug=item)
+class AdminPostDetail(generics.RetrieveAPIView):
+    permission_classes = [ permissions.IsAuthenticated ]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
-    # Define Custom Queryset
-    # def get_queryset(self):
-    #     return Post.objects.all()
+class EditPost(generics.UpdateAPIView):
+    permission_classes = [ permissions.IsAuthenticated ]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
-
-# class PostList(viewsets.ViewSet):
-#     permission_classes = [IsAuthenticated]
-#     queryset = Post.postobjects.all()
-
-#     def list(self, request):
-#         serializer_class = PostSerializer(self.queryset, many=True)
-#         return Response(serializer_class.data)
-
-#     def retrieve(self, request, pk=None):
-#         post = get_object_or_404(self.queryset, pk=pk)
-#         serializer_class = PostSerializer(post)
-#         return Response(serializer_class.data)
-
-    # def list(self, request):
-    #     pass
-
-    # def create(self, request):
-    #     pass
-
-    # def retrieve(self, request, pk=None):
-    #     pass
-
-    # def update(self, request, pk=None):
-    #     pass
-
-    # def partial_update(self, request, pk=None):
-    #     pass
-
-    # def destroy(self, request, pk=None):
-    #     pass
-
-    # class PostList(viewsets.ModelViewSet):
-    #     permission_classes = [IsAuthenticated]
-    #     queryset = Post.postobjects.all()
-    #     serializer_class = PostSerializer
+class DeletePost(generics.RetriveDestroyAPIView):
+    permission_classes = [ permissions.IsAuthenticated ]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
 
 """ Concrete View Classes
