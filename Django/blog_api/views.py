@@ -8,6 +8,7 @@ from rest_framework import filters
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class PostUserWritePermission(BasePermission):
@@ -65,7 +66,7 @@ class PostSearch(generics.ListAPIView):
     permission_classes = [AllowAny]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [DjangoFilterBackend]
     search_fields = ['^slug']
 
     # def get_object(self, queryset=None, **kwargs):
