@@ -4,13 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Route ,BrowserRouter as Router, Switch} from 'react-router-dom';
-import Header from './components/header';
-import Footer from './components/footer';
-import Register from './components/register';
-import Login from './components/login';
-import Logout from './components/logout';
-import Single from './components/single';
-import Search from './components/search'
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Register from './components/auth/register';
+import Login from './components/auth/login';
+import Logout from './components/auth/logout';
+import Single from './components/posts/single';
+import Search from './components/posts/search';
+import Admin from './Admin';
+import Create from './components/admin/create';
+import Edit from './components/admin/edit';
+import Delete from './components/admin/delete';
+
 
 
 ReactDOM.render(
@@ -19,6 +24,10 @@ ReactDOM.render(
         <Header />
         <Switch>
           <Route exact path="/" component={App} />
+          <Route path="/admin" component={Admin} />
+          <Route path="/admin/create" component={Create} />
+          <Route path="/admin/edit/:id" component={Edit} />
+          <Route path="/admin/delete/:id" component={Delete} />
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
           <Route path="/logout" component={Logout} />
