@@ -16,8 +16,8 @@ function Admin() {
             const allPosts = res.data;
             setAppState({ loading: false, posts: allPosts });
             console.log(res.data);
-        }, [setAppState])
-    })
+        })
+    }, [setAppState])
 
     return (
         <div className="App">

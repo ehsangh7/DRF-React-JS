@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const posts = (props) => {
+const Posts = (props) => {
     const { posts } = props;
     const classes = useStyles();
     if (!posts || posts.length === 0) return <p>Can not find any posts, sorry</p>
@@ -117,4 +117,4 @@ const posts = (props) => {
     )
 }
 
-export default posts
+export default Posts
