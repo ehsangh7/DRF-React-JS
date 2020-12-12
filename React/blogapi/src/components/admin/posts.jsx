@@ -58,45 +58,47 @@ const Posts = (props) => {
                                     <TableCell>ID</TableCell>
                                     <TableCell align="left">Category</TableCell>
                                     <TableCell align="left">Title</TableCell>
-                                    <TableCell align="left">Action</TableCell>
+                                    <TableCell align="right">Action</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {posts.map(post => {
-                                    return(
-                                        <TableRow>
-                                            <TableCell component="th" scope="row">
-                                                {post.id}
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                {post.category}
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                <Link
-                                                    color="textPrimary"
-                                                    href={'/post/' + post.slug}
-                                                    className={classes.link}
-                                                    >
-                                                    {post.title}
-                                                </Link>
-                                                <Link
-                                                    color="textPrimary"
-                                                    href={'/admin/edit' + post.id}
-                                                    className={classes.link}
-                                                    >
-                                                    <EditIcon />
-                                                </Link>
-                                                <Link
-                                                    color="textPrimary"
-                                                    href={'/admin/delete' + post.id}
-                                                    className={classes.link}
-                                                    >
-                                                    <DeleteForeverIcon />
-                                                </Link>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
+                            {posts.map((post) => {
+									return (
+										<TableRow>
+											<TableCell component="th" scope="row">
+												{post.id}
+											</TableCell>
+											<TableCell align="left">{post.category}</TableCell>
+
+											<TableCell align="left">
+												<Link
+													color="textPrimary"
+													href={'/post/' + post.slug}
+													className={classes.link}
+												>
+													{post.title}
+												</Link>
+											</TableCell>
+
+											<TableCell align="right">
+												<Link
+													color="textPrimary"
+													href={'/admin/edit/' + post.id}
+													className={classes.link}
+												>
+													<EditIcon></EditIcon>
+												</Link>
+												<Link
+													color="textPrimary"
+													href={'/admin/delete/' + post.id}
+													className={classes.link}
+												>
+													<DeleteForeverIcon></DeleteForeverIcon>
+												</Link>
+											</TableCell>
+										</TableRow>
+									);
+								})}
                                 <TableRow>
                                     <TableCell colSpan={4} align="right">
                                         <Button
@@ -117,4 +119,4 @@ const Posts = (props) => {
     )
 }
 
-export default Posts;
+export default Posts
