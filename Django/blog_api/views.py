@@ -5,14 +5,16 @@ from rest_framework import viewsets, filters, generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.parsers import MultipartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Display Posts
+
 
 class PostList(generics.ListAPIView):
 
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+
 
 class PostDetail(generics.RetrieveAPIView):
 
@@ -24,8 +26,9 @@ class PostDetail(generics.RetrieveAPIView):
 
 # Post Search
 
+
 class PostListDetailfilter(generics.ListAPIView):
-  
+
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = [filters.SearchFilter]
@@ -40,9 +43,10 @@ class PostListDetailfilter(generics.ListAPIView):
 #     queryset = Post.objects.all()
 #     serializer_class = PostSerializer
 
+
 class CreatePost(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-    parser_classes = [MultipartParser, FormParser]
+    # permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request, format=None):
         print(request.data)
@@ -53,21 +57,24 @@ class CreatePost(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class AdminPostDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+
 
 class EditPost(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
+
 class DeletePost(generics.RetrieveDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    
+
 
 """ Concrete View Classes
 # CreateAPIView
