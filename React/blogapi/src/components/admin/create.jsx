@@ -13,9 +13,11 @@ import {
 	Grid, 
 	Typography, 
 	Container, 
-	IconButton} from '@material-ui/core';
+	IconButton,
+	Input,
+	 } from '@material-ui/core';
 
-import {PhotoCamera} from '@material-ui/icons'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	input:{
+		display: 'none',
+	}
 }));
 
 export default function Create() {
@@ -95,20 +100,7 @@ export default function Create() {
 	};
 
 	const handleSubmit = (e) => {
-		// e.preventDefault();
-		//// axiosInstance
-		// 	.post(`admin/create/`, {
-		// 		title: formData.title,
-		// 		slug: formData.slug,
-		// 		author: 1,
-		// 		excerpt: formData.excerpt,
-		// 		content: formData.content,
-		// 	})
-		// 	.then((res) => {
-		// 		history.push('/admin/');
-		// 	});
-		const config = {headers: {'Content-Type': 'multipart/form-data'}};
-		const URL = 'http://127.0.0.1:8000/api/admin/create/';
+		e.preventDefault();
 		let formData = new FormData();
 		formData.append('title', postData.title);
 		formData.append('slug', postData.slug);
@@ -116,13 +108,13 @@ export default function Create() {
 		formData.append('excerpt', postData.excerpt);
 		formData.append('content', postData.content);
 		formData.append('image', postimage.image[0]);
-		axios
-			.post(URL, formData, config)
-			.then((res) => {
-				console.log(res.data);
-			})
-			.catch((err) => console.log(err))
+		axiosInstance
+			.post(`admin/create/`, formData);
 
+		history.push({
+			pathname: '/admin/',
+		});
+		window.location.reload();
 	};
 
 	const classes = useStyles();
@@ -190,19 +182,27 @@ export default function Create() {
 								rows={4}
 							/>
 						</Grid>
-						<input
+						<Grid item xs={12}>
+						<Input
 							accept="image/*"
 							className={classes.input}
 							id="post-image"
 							onChange={handleChange}
 							name="image"
-							type="file"
-						/>
+							type="file" />
 						<label htmlFor="post-image">
-							<IconButton color="primary" component="span"> 
-								<PhotoCamera />
-							</IconButton>
+							<Button
+								variant="contained"
+								color="default"
+								className={classes.button}
+								startIcon={<CloudUploadIcon />}
+								component="span"
+							>
+								Upload
+							</Button>
 						</label>
+						</Grid>
+						
 					</Grid>
 					<Button
 						type="submit"
